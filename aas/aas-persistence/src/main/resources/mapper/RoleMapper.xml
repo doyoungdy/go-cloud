@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.going.aas.persistence.RoleMapper">
+	<select id="getRoleByUserId" resultType="com.going.aas.domain.Role">
+	SELECT
+	    r.id as id,
+		r.name as name,
+		r.remark as remark,
+		r.sequence as sequence
+	FROM
+		role r,
+		user_role ur,
+		user u
+	WHERE
+	    r.id = ur.role_id
+	    AND u.id = ur.user_id
+	    AND u.id = #{userId}
+	ORDER BY r.sequence    
+	</select>
+</mapper>

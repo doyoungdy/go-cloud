@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>aas</artifactId>
+		<groupId>com.going.cloud</groupId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../aas/pom.xml</relativePath>
+	</parent>
+	<artifactId>aas-service</artifactId>
+	<name>认证与授权服务接口实现</name>
+	<description>认证与授权服务接口实现</description>
+	
+	<properties>
+		<java.version>1.8</java.version>
+		<going.aas.version>1.0-SNAPSHOT</going.aas.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.boot</groupId> -->
+<!-- 			<artifactId>spring-boot-starter-jdbc</artifactId> -->
+<!-- 		</dependency> -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.alibaba.spring.boot</groupId> -->
+<!-- 			<artifactId>dubbo-spring-boot-starter</artifactId> -->
+<!-- 		</dependency> -->
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.going.cloud</groupId>
+			<artifactId>aas-domain</artifactId>
+			<version>${going.aas.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.going.cloud</groupId>
+			<artifactId>aas-interface</artifactId>
+			<version>${going.aas.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.going.cloud</groupId>
+			<artifactId>aas-persistence</artifactId>
+			<version>${going.aas.version}</version>
+		</dependency>		
+	</dependencies>
+</project>

@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  datasource:
+      url: jdbc:mysql://localhost:3306/going-aas?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: 123456
+      druid:
+        driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
+  check-config-location: true
+  
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: JwtSigningKey
+  
+logging:
+  config: classpath:logback.xml
+  level:
+    org:
+      springframework:
+        web: debug  
