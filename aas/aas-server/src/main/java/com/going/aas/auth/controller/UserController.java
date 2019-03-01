@@ -3,7 +3,6 @@ package com.going.aas.auth.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,9 +23,4 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
     
-//    public static void main(String[] args) {
-//    	 BCryptPasswordEncoder x = new BCryptPasswordEncoder();
-//    	 System.out.println(x.encode(""));
-//	}
-
 }
