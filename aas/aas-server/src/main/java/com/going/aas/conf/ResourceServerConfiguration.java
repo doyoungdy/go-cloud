@@ -12,8 +12,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
  * 通过继承于ResourceServerConfigurerAdapter类,覆盖默认oauth2资源访问安全配置
  * 
  */
-//@Configuration
-//@EnableResourceServer
+@Configuration
+@EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
 	@Override
