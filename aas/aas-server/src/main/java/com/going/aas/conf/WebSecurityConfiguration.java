@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -48,6 +47,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new UserDetailsServiceImpl(userService, roleService);
     }
 	
+	
 	/**
 	 * 用户认证密码加密
 	 * @return
@@ -63,9 +63,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * 对用户的认证密码进行加解密码
      */
     @Autowired
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
-            .passwordEncoder(passwordEncoder());
+//            .passwordEncoder(passwordEncoder())
+            ;
     }
 
 	/**
@@ -88,13 +89,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return;
     }
     
-//    /**
-//     * 静态信息都可以访问
-//     */
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/css/**", "/js/**", "/plugins/**", "/favicon.ico");
-//        return;
-//    }
+    /**
+     * 静态信息都可以访问
+     */
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**", "/js/**", "/plugins/**", "/favicon.ico");
+    }
 
 }

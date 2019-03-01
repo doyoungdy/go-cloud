@@ -7,20 +7,24 @@ spring:
       password: 123456
       druid:
         driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    host: 127.0.0.1
+    port: 6379
+#    password: 123456
+            
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
   check-config-location: true
   
-security:
-  oauth2:
-    resource:
-      jwt:
-        key-value: JwtSigningKey
+#security:
+#  oauth2:
+#    resource:
+#      jwt:
+#        key-value: JwtSigningKey
   
 logging:
   config: classpath:logback.xml
   level:
     org:
-      springframework:
-        web: debug  
+      springframework: debug
