@@ -4,6 +4,7 @@ package com.going.aas.conf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.going.aas.boot.support.properties.AasProperties;
 import com.going.aas.security.UserDetailsServiceImpl;
 import com.going.aas.service.RoleService;
 import com.going.aas.service.UserService;
@@ -37,6 +39,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private RoleService roleService; 
+	
+	@Autowired
+	private AasProperties aasProperties;
+	
+	@Autowired
+	private SecurityProperties securityProperties;
 
 	/**
 	 * 重载用户信息加载服务
@@ -80,11 +88,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/login").permitAll()
+		http.authorizeRequests().antMatchers(
+				aasProperties.getLoginPage(), 
+				aasProperties.getLoginProcessUrl(), 
+				"/oauth/confirm_access",
+				"/oauth/authorize"
+				).permitAll()
+		//
 		.antMatchers("/oauth/token/revokeById/**").permitAll()
 		.antMatchers("/tokens/**").permitAll()
 		.anyRequest().authenticated()
-		.and().formLogin().permitAll()
+		//
+		.and().formLogin().loginPage(aasProperties.getLoginPage()).loginProcessingUrl(aasProperties.getLoginProcessUrl()).permitAll()
+		//
 		.and().csrf().disable();
 		return;
     }

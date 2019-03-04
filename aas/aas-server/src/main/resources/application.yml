@@ -11,6 +11,10 @@ spring:
     host: 127.0.0.1
     port: 6379
 #    password: 123456
+  thymeleaf:
+      prefix: classpath:/templates/
+      suffix: .html
+      cache: false
             
 mybatis:
   config-location: classpath:mybatis-config.xml

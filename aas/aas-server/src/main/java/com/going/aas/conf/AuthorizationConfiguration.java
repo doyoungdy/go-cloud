@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
@@ -88,6 +89,7 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
 		.tokenEnhancer(tokenEnhancerChain)//
 		.tokenStore(redisTokenStore())//
 		.authenticationManager(authenticationManager)//token端点访问需要用户认证
+//		.pathMapping("/oauth/confirm_access","/custom/confirm_access")
 		;
 	}
 	

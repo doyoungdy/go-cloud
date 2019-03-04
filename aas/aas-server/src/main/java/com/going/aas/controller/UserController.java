@@ -1,4 +1,4 @@
-package com.going.aas.auth.controller;
+package com.going.aas.controller;
 
 import java.security.Principal;
 
