@@ -4,10 +4,10 @@ package com.going.aas.conf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.going.aas.boot.support.properties.AasProperties;
+import com.going.aas.security.AuthenticationProviderImpl;
 import com.going.aas.security.UserDetailsServiceImpl;
 import com.going.aas.service.RoleService;
 import com.going.aas.service.UserService;
@@ -43,9 +44,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private AasProperties aasProperties;
 	
-	@Autowired
-	private SecurityProperties securityProperties;
-
 	/**
 	 * 重载用户信息加载服务
 	 */
@@ -72,9 +70,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService())
-//            .passwordEncoder(passwordEncoder())
-            ;
+        auth.userDetailsService(userDetailsService());
     }
 
 	/**
@@ -85,18 +81,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    
+	/**
+	 * 重载用户认证管理者服务
+	 */
+    @Bean
+    public AuthenticationProvider authenticationProviderBean() throws Exception {
+        return new AuthenticationProviderImpl(userDetailsService());
+    }
+    
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(
 				aasProperties.getLoginPage(), 
 				aasProperties.getLoginProcessUrl(), 
-				"/oauth/confirm_access",
-				"/oauth/authorize"
+				"/oauth/authorize",
+				"/oauth/token"
 				).permitAll()
 		//
-		.antMatchers("/oauth/token/revokeById/**").permitAll()
-		.antMatchers("/tokens/**").permitAll()
 		.anyRequest().authenticated()
 		//
 		.and().formLogin().loginPage(aasProperties.getLoginPage()).loginProcessingUrl(aasProperties.getLoginProcessUrl()).permitAll()
@@ -105,12 +108,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return;
     }
     
-    /**
-     * 静态信息都可以访问
-     */
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/plugins/**", "/favicon.ico");
-    }
+//    /**
+//     * 静态信息都可以访问
+//     */
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/css/**", "/js/**", "/plugins/**", "/favicon.ico");
+//    }
 
 }

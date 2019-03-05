@@ -1,47 +1,78 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>确认授权页面</title>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="//i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css"/>
-
-    <style>
-        .block{
-            position: relative;
-        }
-        .ui-notice{
-            position: relative;
-            padding:20px 15px;
-            box-sizing: border-box;
-        }
-        .ui-notice p{
-            color:#333;
-            font-weight: 600;
-        }
-        .ui-btn-primary{
-            background-color: #02cd93;
-            border-color:#02cd93;;
-        }
-        .ui-notice-btn{
-            padding:50px 0px 15px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>授权</title>
 </head>
-<body>
-<div class="block">
-    <section class="ui-notice">
-        <i class="icon icon-notice"></i>
-        <p>是否授权：<span th:text="${session.authorizationRequest.clientId}">clientId</span></p>
-        <div class="ui-notice-btn">
-            <form id='confirmationForm' name='confirmationForm' action="/oauth/authorize" method='post'>
-                <input name='user_oauth_approval' value='true' type='hidden'/>
-                <!--写好授权访问领域-->
-                <input th:name="${s}" value="true" type="hidden" th:each="s : ${scopeList}"/>
-                <input class="ui-btn-primary ui-btn-lg ui-btn-primary" name='authorize' value='授权' type='submit'/>
-            </form>
+<style>
+
+    html {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .title {
+        background-color: #E9686B;
+        height: 50px;
+        padding-left: 20%;
+        padding-right: 20%;
+        color: white;
+        line-height: 50px;
+        font-size: 18px;
+    }
+
+    .title-left {
+        float: right;
+    }
+
+    .title-right {
+        float: left;
+    }
+
+    .title-left a {
+        color: white;
+    }
+
+    .container {
+        clear: both;
+        text-align: center;
+    }
+
+    .btn {
+        width: 350px;
+        height: 35px;
+        line-height: 35px;
+        cursor: pointer;
+        margin-top: 20px;
+        border-radius: 3px;
+        background-color: #E9686B;
+        color: white;
+        border: none;
+        font-size: 15px;
+    }
+</style>
+<body style="margin: 0px">
+
+<div class="title">
+    <div class="title-right">OAUTH 授权</div>
+    <div class="title-left">
+        <a href="#help">帮助</a>
+    </div>
+</div>
+<div class="container">
+
+    <h3 th:text="${session.authorizationRequest.clientId}+' 请求授权，该应用将获取你的以下信息'"></h3>
+
+    <p>昵称，头像和性别</p>
+    授权后表明你已同意 <a href="#boot" style="color: #E9686B">OAUTH 服务协议</a>
+    <form method="post" action="/oauth/authorize">
+        <input type="hidden" name="user_oauth_approval" value="true">
+        <div th:each="item : ${scopeList}">
+          <input type="radio" th:name="'scope.'+${item}" value="true" hidden="hidden" checked="checked">
         </div>
-    </section>
+        <button class="btn" type="submit"> 同意/授权</button>
+    </form>
 </div>
 </body>
+
 </html>

@@ -89,7 +89,6 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
 		.tokenEnhancer(tokenEnhancerChain)//
 		.tokenStore(redisTokenStore())//
 		.authenticationManager(authenticationManager)//token端点访问需要用户认证
-//		.pathMapping("/oauth/confirm_access","/custom/confirm_access")
 		;
 	}
 	

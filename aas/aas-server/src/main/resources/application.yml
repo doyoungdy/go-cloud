@@ -32,3 +32,6 @@ logging:
   level:
     org:
       springframework: debug
+    com:
+      going:
+        aas: debug  

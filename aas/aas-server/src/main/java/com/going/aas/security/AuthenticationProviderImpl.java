@@ -3,7 +3,7 @@ package com.going.aas.security;
 
 import java.util.Collection;
 
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
@@ -20,11 +20,11 @@ import com.going.aas.domain.User;
  * 基于SpringSecurity框架，基于SpringSecurity接口,实现用户认证功能。
  *
  */
-public class AuthenticationManagerImpl implements AuthenticationManager {
+public class AuthenticationProviderImpl implements AuthenticationProvider {
 
 	private UserDetailsService userDetailsService;
 
-	public AuthenticationManagerImpl(UserDetailsService userDetailsService) {
+	public AuthenticationProviderImpl(UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
 	}
 
