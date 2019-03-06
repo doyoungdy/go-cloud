@@ -7,18 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import com.going.aas.properties.AasProperties;
-import com.going.aas.security.AuthenticationProviderImpl;
+import com.going.aas.security.LoginFailureHandler;
 import com.going.aas.security.UserDetailsServiceImpl;
 import com.going.aas.service.RoleService;
 import com.going.aas.service.UserService;
@@ -82,15 +81,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
     
-	/**
-	 * 重载用户认证管理者服务
-	 */
-    @Bean
-    public AuthenticationProvider authenticationProviderBean() throws Exception {
-        return new AuthenticationProviderImpl(userDetailsService());
-    }
-    
-
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(
@@ -98,22 +88,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				aasProperties.getLoginProcessUrl(), 
 				"/oauth/authorize",
 				"/oauth/token"
-				).permitAll()
+				).permitAll()//
+		.anyRequest().authenticated();
+		http.formLogin()//
+//		.failureHandler(getAuthenticationFailureHandler())//
+		.loginPage(aasProperties.getLoginPage())//
+		.loginProcessingUrl(aasProperties.getLoginProcessUrl()).permitAll();
 		//
-		.anyRequest().authenticated()
-		//
-		.and().formLogin().loginPage(aasProperties.getLoginPage()).loginProcessingUrl(aasProperties.getLoginProcessUrl()).permitAll()
-		//
-		.and().csrf().disable();
-		return;
+		http.httpBasic().disable();
+		http.csrf().disable();
     }
     
-//    /**
-//     * 静态信息都可以访问
-//     */
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/css/**", "/js/**", "/plugins/**", "/favicon.ico");
+//    @Bean
+//    public AuthenticationFailureHandler getAuthenticationFailureHandler() throws Exception {
+//    	return new LoginFailureHandler();
 //    }
+    
+    
+    
 
 }

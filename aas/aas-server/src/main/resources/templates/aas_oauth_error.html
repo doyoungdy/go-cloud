@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>授权</title>
+</head>
+<style>
+
+    html {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .title {
+        background-color: #E9686B;
+        height: 50px;
+        padding-left: 20%;
+        padding-right: 20%;
+        color: white;
+        line-height: 50px;
+        font-size: 18px;
+    }
+
+    .title-left {
+        float: right;
+    }
+
+    .title-right {
+        float: left;
+    }
+
+    .title-left a {
+        color: white;
+    }
+
+    .container {
+        clear: both;
+        text-align: center;
+    }
+
+    .btn {
+        width: 350px;
+        height: 35px;
+        line-height: 35px;
+        cursor: pointer;
+        margin-top: 20px;
+        border-radius: 3px;
+        background-color: #E9686B;
+        color: white;
+        border: none;
+        font-size: 15px;
+    }
+</style>
+<body style="margin: 0px">
+
+<div class="title">
+    <div class="title-right">OAUTH 授权异常</div>
+    <div class="title-left">
+        <a href="#help">帮助</a>
+    </div>
+</div>
+<div class="container">
+    <h3 th:text="'异常状态：'+${httpErrorCode}"></h3>
+    <h3 th:text="'异常码：'+${oauth2ErrorCode}"></h3>
+    <h3 th:text="'异常消息：'+${errorMessage}"></h3>
+</div>
+</body>
+
+</html>

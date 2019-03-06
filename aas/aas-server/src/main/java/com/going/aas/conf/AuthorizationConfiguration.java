@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -17,13 +18,14 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import com.going.aas.oauth2.CustomTokenEnhancer;
+import com.going.aas.oauth2.CustomWebResponseExceptionTranslator;
 
 /**
  * 基于spring-oauth2配置授权服务
@@ -56,6 +58,7 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
 	 */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+    	security.allowFormAuthenticationForClients();//允计通过POST方式在Form中提交客户端信息的方式进行认证
         security.tokenKeyAccess("permitAll()");
         security.checkTokenAccess("isAuthenticated()");//token
     }
@@ -90,7 +93,18 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
 		.tokenStore(redisTokenStore())//
 		.authenticationManager(authenticationManager)//token端点访问需要用户认证
 		;
+		 // 处理 ExceptionTranslationFilter 抛出的异常
+//		endpoints.exceptionTranslator(getWebResponseExceptionTranslator());
 	}
+	
+	/**
+	 * 注入自定义异常翻译
+	 * @return
+	 */
+//    @Bean
+//    public WebResponseExceptionTranslator<OAuth2Exception> getWebResponseExceptionTranslator() {
+//        return new CustomWebResponseExceptionTranslator();
+//    }
 	
 	/**
 	 * 在Token信息中添加用户角色信息

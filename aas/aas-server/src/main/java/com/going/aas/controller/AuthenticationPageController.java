@@ -1,5 +1,7 @@
 package com.going.aas.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,7 @@ public class AuthenticationPageController {
 	 * @return
 	 */
 	@GetMapping("/auth/login")
-	public String loginPage(Model model) {
+	public String loginPage(Model model, HttpServletRequest request) {
 		model.addAttribute("loginProcessUrl", properties.getLoginProcessUrl());
 		return "aas_login";
 	}
