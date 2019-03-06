@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.going.aas.boot.support.properties.AasProperties;
+import com.going.aas.properties.AasProperties;
 import com.going.aas.security.AuthenticationProviderImpl;
 import com.going.aas.security.UserDetailsServiceImpl;
 import com.going.aas.service.RoleService;

@@ -1,4 +1,4 @@
-package com.going.aas.boot.support.properties;
+package com.going.aas.properties;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;

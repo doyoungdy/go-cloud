@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.going.aas.boot.support.properties.AasProperties;
+import com.going.aas.properties.AasProperties;
 
 /**
  * 认证前端界面跳转
